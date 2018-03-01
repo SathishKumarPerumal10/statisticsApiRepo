@@ -1,7 +1,5 @@
 package com.n26.statistics.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class TransactionStatisticsResponseDto {
 
     private Double sum;
@@ -13,9 +11,6 @@ public class TransactionStatisticsResponseDto {
     private Double min;
 
     private Long count;
-
-    @JsonIgnore
-    private Long updatedTimestamp;
 
     public TransactionStatisticsResponseDto() {
 
@@ -70,11 +65,4 @@ public class TransactionStatisticsResponseDto {
         this.count = count;
     }
 
-    public Long getUpdatedTimestamp() {
-        return updatedTimestamp;
-    }
-
-    public void setUpdatedTimestamp(Long updatedTimestamp) {
-        this.updatedTimestamp = updatedTimestamp;
-    }
 }

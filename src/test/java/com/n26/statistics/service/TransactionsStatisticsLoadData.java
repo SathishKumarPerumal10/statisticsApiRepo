@@ -11,11 +11,11 @@ import com.n26.statistics.model.TransactionRequestDto;
 
 public class TransactionsStatisticsLoadData {
 
-    public List<Double> getValidList() {
+    List<Double> getValidList() {
         return Arrays.asList(10.0, 20.0, 50.0, 40.0);
     }
 
-    public List<Double> getEmptyList() {
+    List<Double> getEmptyList() {
         return emptyList();
     }
 
