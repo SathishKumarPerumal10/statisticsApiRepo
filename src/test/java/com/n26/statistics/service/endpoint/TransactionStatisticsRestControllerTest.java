@@ -6,7 +6,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.n26.statistics.endpoint.rest.TransactionStatisticsRestController;
-import com.n26.statistics.exception.NoContentException;
+import com.n26.statistics.exception.InValidTransactionException;
 import com.n26.statistics.model.TransactionRequestDto;
 import com.n26.statistics.service.TransactionStatisticsService;
 import org.junit.Before;
@@ -46,7 +46,7 @@ public class TransactionStatisticsRestControllerTest {
     @Test
     public void whenCreateTransactionRequestwithInvalidRequest_thenReturnResponseWithStatusNoContent() throws Exception {
 
-        doThrow(NoContentException.class).when(transactionStatisticsService).createTransactionStatistics(any(TransactionRequestDto.class));
+        doThrow(InValidTransactionException.class).when(transactionStatisticsService).createTransactionStatistics(any(TransactionRequestDto.class));
         String requestBody = "{\"amount\":123.00,\"timestamp\":1519986840162}";
         MvcResult result = mockMvc
                 .perform(MockMvcRequestBuilders.post("/transactions").content(requestBody).contentType(MediaType.APPLICATION_JSON_UTF8))

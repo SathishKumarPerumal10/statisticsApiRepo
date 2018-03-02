@@ -2,10 +2,9 @@ package com.n26.statistics.domain.repository;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 import com.n26.statistics.model.TransactionRequestDto;
@@ -19,9 +18,9 @@ import org.springframework.stereotype.Repository;
 public class TransactionRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransactionRepository.class);
-    public static TransactionStatisticsResponseDto transactionStatisticsResponseDto = new TransactionStatisticsResponseDto(0.0, 0.0, 0.0, 0.0, 0L);
+    static TransactionStatisticsResponseDto transactionStatisticsResponseDto = new TransactionStatisticsResponseDto(0.0, 0.0, 0.0, 0.0, 0L);
 
-    private List<TransactionRequestDto> transactions = Collections.synchronizedList(new ArrayList<>());
+    private List<TransactionRequestDto> transactions = new CopyOnWriteArrayList<>();
 
     /**
      * (SP) This scheduler will kick of every one second and this will be responsible to clear the expired transactions from the list
@@ -39,9 +38,9 @@ public class TransactionRepository {
      * (SP) This method will create the transaction.
      */
     public void createTransaction(TransactionRequestDto transactionRequestDto) {
-        LOGGER.trace("Creating Transaction for request :" + transactionRequestDto);
+        LOGGER.trace("Creating Transaction for request : {}", transactionRequestDto);
         transactions.add(transactionRequestDto);
-        LOGGER.trace("Transaction Created :" + transactionRequestDto);
+        LOGGER.trace("Transaction Created : {}", transactionRequestDto);
     }
 
     /**
@@ -60,7 +59,7 @@ public class TransactionRepository {
                 .filter(transactionRequestDto -> transactionRequestDto.getTimestamp() > getValidTime()).map(TransactionRequestDto::getAmount)
                 .collect(Collectors.toList());
 
-        LOGGER.debug("Number of Valid Transaction statistics :" + transactionStatistics.size());
+        LOGGER.debug("Number of Valid Transaction statistics : {}", transactionStatistics.size());
         DoubleSummaryStatistics statistics = transactionStatistics.stream().collect(Collectors.summarizingDouble(Double::doubleValue));
         transactionStatisticsResponseDto.setSum(statistics.getSum());
         transactionStatisticsResponseDto.setCount(statistics.getCount());
@@ -84,9 +83,9 @@ public class TransactionRepository {
      * (SP) This method will delete all the expired transactions.
      */
     private void deleteExpiredTransactions() {
-        LOGGER.trace("Deleting Expired transactions : Number of Transactions Before Deletion :" + transactions.size());
+        LOGGER.trace("Deleting Expired transactions : Number of Transactions Before Deletion : {}", transactions.size());
         transactions.removeIf(transaction -> transaction.getTimestamp() < getValidTime());
-        LOGGER.trace("Expired transactions deleted : Number of Transactions After Deletion :" + transactions.size());
+        LOGGER.trace("Expired transactions deleted : Number of Transactions After Deletion : {}", transactions.size());
     }
 
     /**

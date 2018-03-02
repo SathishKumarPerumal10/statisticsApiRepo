@@ -53,12 +53,12 @@ public class TransactionRepositoryTest {
         }
         transactionRepository.scheduleStatisticUpdate();
         TransactionStatisticsResponseDto responseAfter = transactionRepository.getTransactionStatistics();
-        assertNotNull(response);
-        assertEquals(2L, response.getCount().longValue());
-        assertEquals(20L, response.getMin().longValue());
-        assertEquals(30L, response.getMax().longValue());
-        assertEquals(25L, response.getAvg().longValue());
-        assertEquals(50L, response.getSum().longValue());
+        assertNotNull(responseAfter);
+        assertEquals(2L, responseAfter.getCount().longValue());
+        assertEquals(20L, responseAfter.getMin().longValue());
+        assertEquals(30L, responseAfter.getMax().longValue());
+        assertEquals(25L, responseAfter.getAvg().longValue());
+        assertEquals(50L, responseAfter.getSum().longValue());
 
     }
 

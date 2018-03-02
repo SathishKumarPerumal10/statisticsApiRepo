@@ -1,7 +1,7 @@
 package com.n26.statistics.service;
 
 import com.n26.statistics.domain.repository.TransactionRepository;
-import com.n26.statistics.exception.NoContentException;
+import com.n26.statistics.exception.InValidTransactionException;
 import com.n26.statistics.model.TransactionRequestDto;
 import com.n26.statistics.model.TransactionStatisticsResponseDto;
 import com.n26.statistics.validator.TransactionRequestValidator;
@@ -23,7 +23,7 @@ public class TransactionStatisticsService {
     /**
      * This method will validate the request and if it is valid, it creates the transaction and then updates the statistics
      */
-    public void createTransactionStatistics(TransactionRequestDto transactionRequestDto) throws NoContentException {
+    public void createTransactionStatistics(TransactionRequestDto transactionRequestDto) throws InValidTransactionException {
         LOGGER.trace("TransactionStatisticsService : createTransactionStatistics() invoked");
         transactionRequestValidator.validateRequest(transactionRequestDto);
         transactionRepository.createTransaction(transactionRequestDto);

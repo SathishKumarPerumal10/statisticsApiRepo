@@ -1,6 +1,6 @@
 package com.n26.statistics.endpoint.rest;
 
-import com.n26.statistics.exception.NoContentException;
+import com.n26.statistics.exception.InValidTransactionException;
 import com.n26.statistics.model.TransactionRequestDto;
 import com.n26.statistics.model.TransactionStatisticsResponseDto;
 import com.n26.statistics.service.TransactionStatisticsService;
@@ -28,7 +28,7 @@ public class TransactionStatisticsRestController {
         LOGGER.trace("TransactionStatisticsRestController : createTransactionStatistics endpoint is invoked");
         try {
             transactionStatisticsService.createTransactionStatistics(transactionRequestDto);
-        } catch (NoContentException exception) {
+        } catch (InValidTransactionException exception) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.CREATED);

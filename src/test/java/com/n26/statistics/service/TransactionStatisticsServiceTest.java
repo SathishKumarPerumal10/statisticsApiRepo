@@ -3,7 +3,7 @@ package com.n26.statistics.service;
 import static org.mockito.Mockito.*;
 
 import com.n26.statistics.domain.repository.TransactionRepository;
-import com.n26.statistics.exception.NoContentException;
+import com.n26.statistics.exception.InValidTransactionException;
 import com.n26.statistics.model.TransactionRequestDto;
 import com.n26.statistics.validator.TransactionRequestValidator;
 import org.junit.Before;
@@ -32,7 +32,7 @@ public class TransactionStatisticsServiceTest {
     }
 
     @Test
-    public void givenTransactionRequest_whenCreateTransaction_ThenCallValidatorAndRepositorySuccessfully() throws NoContentException {
+    public void givenTransactionRequest_whenCreateTransaction_ThenCallValidatorAndRepositorySuccessfully() throws InValidTransactionException {
 
         TransactionRequestDto transactionRequestDto = transactionsStatisticsLoadData.getValidTransactionRequestDto();
         transactionStatisticsService.createTransactionStatistics(transactionRequestDto);
